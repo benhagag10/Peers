@@ -54,6 +54,11 @@ export interface AppState {
   links: Link[];
   viewport: Viewport;
 
+  // Connection state
+  isLoading: boolean;
+  isConnected: boolean;
+  error: string | null;
+
   // Dark mode
   darkMode: boolean;
 
@@ -108,6 +113,10 @@ export interface AppState {
 
   // Actions - Dark mode
   toggleDarkMode: () => void;
+
+  // Actions - Store initialization
+  initializeStore: () => Promise<void>;
+  cleanupStore: () => void;
 
   // Computed helpers
   getLinksForPerson: (personId: string) => Link[];
