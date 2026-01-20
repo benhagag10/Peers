@@ -74,13 +74,16 @@ function TagInput({ tags, onChange, placeholder = 'Type and press space...', sug
   return (
     <div className="relative">
       <div
-        className="flex flex-wrap gap-1.5 p-2 border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent min-h-[42px] cursor-text"
+        className="flex flex-wrap gap-1.5 p-2.5 bg-white/5 border border-white/10 rounded-xl
+          focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:border-indigo-500/50
+          min-h-[46px] cursor-text transition-all"
         onClick={() => inputRef.current?.focus()}
       >
         {tags.map((tag, index) => (
           <span
             key={index}
-            className="inline-flex items-center gap-1 px-2 py-0.5 bg-pink-100 text-pink-800 rounded-full text-sm"
+            className="inline-flex items-center gap-1 px-2.5 py-1 bg-pink-500/20 text-pink-300
+              border border-pink-500/30 rounded-full text-sm"
           >
             {tag}
             <button
@@ -89,7 +92,7 @@ function TagInput({ tags, onChange, placeholder = 'Type and press space...', sug
                 e.stopPropagation();
                 removeTag(index);
               }}
-              className="hover:bg-pink-200 rounded-full p-0.5"
+              className="hover:bg-pink-500/30 rounded-full p-0.5 transition-colors"
             >
               <X className="w-3 h-3" />
             </button>
@@ -103,13 +106,14 @@ function TagInput({ tags, onChange, placeholder = 'Type and press space...', sug
           onKeyDown={handleKeyDown}
           onFocus={() => input && setShowSuggestions(true)}
           placeholder={tags.length === 0 ? placeholder : ''}
-          className="flex-1 min-w-[100px] outline-none text-sm bg-transparent"
+          className="flex-1 min-w-[100px] outline-none text-sm bg-transparent text-white placeholder-white/30"
         />
       </div>
 
       {/* Suggestions dropdown */}
       {showSuggestions && filteredSuggestions.length > 0 && (
-        <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-40 overflow-y-auto">
+        <div className="absolute z-10 mt-1 w-full bg-gray-800/95 backdrop-blur-xl
+          border border-white/10 rounded-xl shadow-lg max-h-40 overflow-y-auto">
           {filteredSuggestions.slice(0, 8).map((suggestion) => (
             <button
               key={suggestion}
@@ -118,7 +122,8 @@ function TagInput({ tags, onChange, placeholder = 'Type and press space...', sug
                 e.stopPropagation();
                 addTag(suggestion);
               }}
-              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 transition-colors"
+              className="w-full px-3 py-2 text-left text-sm text-white/70 hover:bg-indigo-500/20
+                hover:text-white transition-colors"
             >
               {suggestion}
             </button>
@@ -126,7 +131,7 @@ function TagInput({ tags, onChange, placeholder = 'Type and press space...', sug
         </div>
       )}
 
-      <p className="mt-1 text-xs text-gray-500">
+      <p className="mt-1.5 text-xs text-white/40">
         Press space to add, backspace to remove
       </p>
     </div>

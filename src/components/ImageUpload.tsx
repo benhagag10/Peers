@@ -97,7 +97,7 @@ function ImageUpload({ value, onChange, className = '' }: ImageUploadProps) {
   if (value) {
     return (
       <div className={`relative ${className}`}>
-        <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-300 bg-gray-100">
+        <div className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10 bg-white/5">
           <img
             src={value}
             alt="Preview"
@@ -112,7 +112,7 @@ function ImageUpload({ value, onChange, className = '' }: ImageUploadProps) {
             <X className="w-3 h-3 text-white" />
           </button>
         </div>
-        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+        {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
       </div>
     );
   }
@@ -126,8 +126,11 @@ function ImageUpload({ value, onChange, className = '' }: ImageUploadProps) {
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
         className={`
-          relative border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors
-          ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'}
+          relative border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all
+          ${isDragging
+            ? 'border-indigo-500 bg-indigo-500/10'
+            : 'border-white/20 hover:border-white/30 hover:bg-white/5'
+          }
         `}
       >
         <input
@@ -138,19 +141,19 @@ function ImageUpload({ value, onChange, className = '' }: ImageUploadProps) {
           className="hidden"
         />
         <div className="flex flex-col items-center gap-2">
-          <div className={`p-2 rounded-full ${isDragging ? 'bg-blue-100' : 'bg-gray-100'}`}>
+          <div className={`p-2 rounded-xl ${isDragging ? 'bg-indigo-500/20' : 'bg-white/5'}`}>
             {isDragging ? (
-              <Image className="w-5 h-5 text-blue-500" />
+              <Image className="w-5 h-5 text-indigo-400" />
             ) : (
-              <Upload className="w-5 h-5 text-gray-400" />
+              <Upload className="w-5 h-5 text-white/40" />
             )}
           </div>
           <div className="text-sm">
-            <span className={isDragging ? 'text-blue-600' : 'text-gray-600'}>
+            <span className={isDragging ? 'text-indigo-400' : 'text-white/60'}>
               {isDragging ? 'Drop image here' : 'Drag & drop or click to upload'}
             </span>
           </div>
-          <p className="text-xs text-gray-400">PNG, JPG up to 2MB</p>
+          <p className="text-xs text-white/30">PNG, JPG up to 2MB</p>
         </div>
       </div>
 
@@ -159,7 +162,7 @@ function ImageUpload({ value, onChange, className = '' }: ImageUploadProps) {
         <button
           type="button"
           onClick={() => setShowUrlInput(true)}
-          className="mt-2 flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700"
+          className="mt-2 flex items-center gap-1 text-xs text-white/40 hover:text-white/60 transition-colors"
         >
           <Link className="w-3 h-3" />
           Or enter image URL
@@ -171,27 +174,30 @@ function ImageUpload({ value, onChange, className = '' }: ImageUploadProps) {
             value={urlInput}
             onChange={(e) => setUrlInput(e.target.value)}
             placeholder="https://example.com/photo.jpg"
-            className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="flex-1 px-2.5 py-1.5 text-sm text-white placeholder-white/30
+              bg-white/5 border border-white/10 rounded-lg
+              focus:outline-none focus:ring-1 focus:ring-indigo-500/50"
             onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleUrlSubmit())}
           />
           <button
             type="button"
             onClick={handleUrlSubmit}
-            className="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
+            className="px-2.5 py-1.5 text-xs text-white bg-indigo-500 rounded-lg hover:bg-indigo-400 transition-colors"
           >
             Add
           </button>
           <button
             type="button"
             onClick={() => setShowUrlInput(false)}
-            className="px-2 py-1 text-xs text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
+            className="px-2.5 py-1.5 text-xs text-white/60 bg-white/5 border border-white/10 rounded-lg
+              hover:bg-white/10 transition-colors"
           >
             Cancel
           </button>
         </div>
       )}
 
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
     </div>
   );
 }

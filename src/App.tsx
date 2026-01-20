@@ -8,6 +8,7 @@ import EditPersonModal from './components/Modals/EditPersonModal';
 import AddLinkModal from './components/Modals/AddLinkModal';
 import EditLinkModal from './components/Modals/EditLinkModal';
 import ConfirmDialog from './components/Modals/ConfirmDialog';
+import MeshGradient from './components/MeshGradient';
 import { useStore } from './store/useStore';
 
 function App() {
@@ -20,7 +21,6 @@ function App() {
     openConfirmDialog,
     getPersonById,
     getLinkById,
-    darkMode,
     isLoading,
     isConnected,
     error,
@@ -90,43 +90,57 @@ function App() {
   // Loading state
   if (isLoading) {
     return (
-      <div className={`w-full h-screen flex items-center justify-center ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
-        <div className="text-center">
-          <div className={`animate-spin rounded-full h-12 w-12 border-4 border-t-transparent mx-auto mb-4 ${darkMode ? 'border-blue-400' : 'border-blue-500'}`}></div>
-          <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>Connecting to server...</p>
+      <>
+        <MeshGradient />
+        <div className="w-full h-screen flex items-center justify-center">
+          <div className="text-center glass rounded-2xl p-8">
+            <div className="relative w-16 h-16 mx-auto mb-4">
+              <div className="absolute inset-0 rounded-full border-4 border-indigo-500/20"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-t-indigo-500 animate-spin"></div>
+            </div>
+            <p className="text-white/70 font-medium">Connecting to server...</p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   // Error state
   if (error) {
     return (
-      <div className={`w-full h-screen flex items-center justify-center ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
-        <div className="text-center p-8">
-          <div className="text-red-500 text-5xl mb-4">!</div>
-          <h2 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-            Connection Error
-          </h2>
-          <p className={`mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{error}</p>
-          <button
-            onClick={() => initializeStore()}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-          >
-            Retry Connection
-          </button>
+      <>
+        <MeshGradient />
+        <div className="w-full h-screen flex items-center justify-center">
+          <div className="text-center glass rounded-2xl p-8 max-w-md">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
+              <span className="text-red-400 text-3xl font-bold">!</span>
+            </div>
+            <h2 className="text-xl font-semibold mb-2 text-white">
+              Connection Error
+            </h2>
+            <p className="mb-6 text-white/60">{error}</p>
+            <button
+              onClick={() => initializeStore()}
+              className="px-6 py-2.5 bg-indigo-500 text-white rounded-xl font-medium
+                hover:bg-indigo-400 transition-all duration-300
+                shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)]"
+            >
+              Retry Connection
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
     <ReactFlowProvider>
-      <div className={`w-full h-screen flex flex-col ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <MeshGradient />
+      <div className="relative w-full h-screen flex flex-col">
         <Header />
         {/* Connection status indicator */}
         {!isConnected && (
-          <div className="bg-yellow-500 text-white text-center py-1 text-sm">
+          <div className="bg-amber-500/90 backdrop-blur-sm text-white text-center py-1.5 text-sm font-medium">
             Reconnecting to server...
           </div>
         )}

@@ -26,7 +26,7 @@ function ConfirmDialog() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/30" />
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -40,30 +40,38 @@ function ConfirmDialog() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl
+                bg-gray-900/95 backdrop-blur-xl border border-white/10
+                shadow-[0_25px_60px_rgba(0,0,0,0.5)] p-6 transition-all">
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-red-100">
-                    <AlertTriangle className="w-5 h-5 text-red-600" />
+                  <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-red-500/20">
+                    <AlertTriangle className="w-5 h-5 text-red-400" />
                   </div>
                   <div>
-                    <Dialog.Title as="h3" className="text-lg font-semibold text-gray-900">
+                    <Dialog.Title as="h3" className="text-lg font-semibold text-white">
                       Confirm Delete
                     </Dialog.Title>
-                    <p className="mt-2 text-sm text-gray-500">{confirmDialogMessage}</p>
+                    <p className="mt-2 text-sm text-white/60">{confirmDialogMessage}</p>
                   </div>
                 </div>
 
                 <div className="mt-6 flex justify-end gap-3">
                   <button
                     type="button"
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                    className="px-4 py-2.5 text-sm font-medium text-white/70
+                      bg-white/5 border border-white/10 rounded-xl
+                      hover:bg-white/10 transition-colors"
                     onClick={closeConfirmDialog}
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
+                    className="px-4 py-2.5 text-sm font-medium text-white
+                      bg-red-500 rounded-xl hover:bg-red-400
+                      shadow-[0_0_20px_rgba(239,68,68,0.3)]
+                      hover:shadow-[0_0_30px_rgba(239,68,68,0.5)]
+                      transition-all"
                     onClick={handleConfirm}
                   >
                     Delete

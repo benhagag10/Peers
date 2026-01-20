@@ -86,6 +86,21 @@ function LinkEdge({
 
   return (
     <>
+      {/* Glow effect layer */}
+      {isSelected && (
+        <BaseEdge
+          id={`${id}-glow`}
+          path={edgePath}
+          style={{
+            stroke: color,
+            strokeWidth: 8,
+            strokeDasharray: getDashArray(),
+            opacity: 0.3,
+            filter: 'blur(4px)',
+          }}
+        />
+      )}
+      {/* Main edge */}
       <BaseEdge
         id={id}
         path={edgePath}
@@ -94,22 +109,27 @@ function LinkEdge({
           stroke: color,
           strokeWidth: isSelected ? 3 : 2,
           strokeDasharray: getDashArray(),
-          opacity: isSelected ? 1 : 0.7,
+          opacity: isSelected ? 1 : 0.6,
+          filter: isSelected ? `drop-shadow(0 0 6px ${color})` : 'none',
         }}
       />
       <EdgeLabelRenderer>
         <div
           className={`
-            absolute pointer-events-auto px-2 py-0.5 rounded text-xs font-medium
-            max-w-[120px] truncate cursor-pointer
-            transition-all duration-150
-            ${isSelected ? 'bg-white shadow-md' : 'bg-gray-50'}
+            absolute pointer-events-auto px-2.5 py-1 rounded-lg text-xs font-medium
+            max-w-[140px] truncate cursor-pointer
+            transition-all duration-300 backdrop-blur-md
+            ${isSelected
+              ? 'bg-white/15 shadow-[0_0_15px_rgba(0,0,0,0.3)]'
+              : 'bg-white/5 hover:bg-white/10'
+            }
             ${isAutoLink ? 'italic' : ''}
           `}
           style={{
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
-            color: color,
-            border: `1px ${isAutoLink ? 'dashed' : 'solid'} ${color}`,
+            color: isSelected ? '#fff' : 'rgba(255,255,255,0.7)',
+            border: `1px ${isAutoLink ? 'dashed' : 'solid'} ${isSelected ? color : 'rgba(255,255,255,0.2)'}`,
+            boxShadow: isSelected ? `0 0 20px ${color}40` : 'none',
           }}
         >
           {description}

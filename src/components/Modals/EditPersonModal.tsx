@@ -96,7 +96,7 @@ function EditPersonModal() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/30" />
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -110,28 +110,34 @@ function EditPersonModal() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white shadow-xl transition-all">
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-                  <Dialog.Title as="h3" className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                    <User className="w-5 h-5 text-blue-600" />
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl
+                bg-gray-900/95 backdrop-blur-xl border border-white/10
+                shadow-[0_25px_60px_rgba(0,0,0,0.5)] transition-all">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                  <Dialog.Title as="h3" className="text-lg font-semibold text-white flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-indigo-500/20">
+                      <User className="w-4 h-4 text-indigo-400" />
+                    </div>
                     Edit Person
                   </Dialog.Title>
                   <button
                     onClick={closeEditPersonModal}
-                    className="p-1 rounded-full hover:bg-gray-100 transition-colors"
+                    className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
                   >
-                    <X className="w-5 h-5 text-gray-400" />
+                    <X className="w-5 h-5 text-white/50" />
                   </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
                   {error && (
-                    <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg">{error}</div>
+                    <div className="p-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl">
+                      {error}
+                    </div>
                   )}
 
                   <div>
-                    <label htmlFor="edit-name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Name <span className="text-red-500">*</span>
+                    <label htmlFor="edit-name" className="block text-sm font-medium text-white/70 mb-1.5">
+                      Name <span className="text-red-400">*</span>
                     </label>
                     <input
                       id="edit-name"
@@ -139,13 +145,16 @@ function EditPersonModal() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="John Doe"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 text-white placeholder-white/30
+                        bg-white/5 border border-white/10 rounded-xl
+                        focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50
+                        transition-all"
                       autoFocus
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="edit-affiliation" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="edit-affiliation" className="block text-sm font-medium text-white/70 mb-1.5">
                       Affiliation
                     </label>
                     <input
@@ -154,12 +163,15 @@ function EditPersonModal() {
                       value={affiliation}
                       onChange={(e) => setAffiliation(e.target.value)}
                       placeholder="MIT, Stanford, etc."
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 text-white placeholder-white/30
+                        bg-white/5 border border-white/10 rounded-xl
+                        focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50
+                        transition-all"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="edit-stream" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="edit-stream" className="block text-sm font-medium text-white/70 mb-1.5">
                       Stream
                     </label>
                     <input
@@ -168,15 +180,18 @@ function EditPersonModal() {
                       value={stream}
                       onChange={(e) => setStream(e.target.value)}
                       placeholder="e.g., Machine Learning, NLP, Vision"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 text-white placeholder-white/30
+                        bg-white/5 border border-white/10 rounded-xl
+                        focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50
+                        transition-all"
                     />
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1.5 text-xs text-white/40">
                       People with the same stream will be automatically connected
                     </p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-white/70 mb-1.5">
                       Interests
                     </label>
                     <TagInput
@@ -185,20 +200,20 @@ function EditPersonModal() {
                       placeholder="Type interest and press space..."
                       suggestions={allInterests}
                     />
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1.5 text-xs text-white/40">
                       People with shared interests will be automatically connected
                     </p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-white/70 mb-1.5">
                       Photo
                     </label>
                     <ImageUpload value={photoUrl} onChange={setPhotoUrl} />
                   </div>
 
                   <div>
-                    <label htmlFor="edit-peeps" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="edit-peeps" className="block text-sm font-medium text-white/70 mb-1.5">
                       Peeps
                     </label>
                     <input
@@ -207,7 +222,10 @@ function EditPersonModal() {
                       value={peeps}
                       onChange={(e) => setPeeps(e.target.value)}
                       placeholder="https://peeps.com/johndoe"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 text-white placeholder-white/30
+                        bg-white/5 border border-white/10 rounded-xl
+                        focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50
+                        transition-all"
                     />
                   </div>
 
@@ -215,7 +233,9 @@ function EditPersonModal() {
                     <button
                       type="button"
                       onClick={handleDelete}
-                      className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium
+                        text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl
+                        hover:bg-red-500/20 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                       Delete
@@ -224,13 +244,20 @@ function EditPersonModal() {
                       <button
                         type="button"
                         onClick={closeEditPersonModal}
-                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                        className="px-4 py-2.5 text-sm font-medium text-white/70
+                          bg-white/5 border border-white/10 rounded-xl
+                          hover:bg-white/10 transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
-                        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                        className="px-4 py-2.5 text-sm font-medium text-white
+                          bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl
+                          hover:from-indigo-400 hover:to-purple-500
+                          shadow-[0_0_20px_rgba(99,102,241,0.3)]
+                          hover:shadow-[0_0_30px_rgba(99,102,241,0.5)]
+                          transition-all"
                       >
                         Save Changes
                       </button>

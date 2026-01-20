@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Plus, Users, Moon, Sun } from 'lucide-react';
+import { Plus, Sparkles } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import SearchBox from './SearchBox';
 
 function Header() {
-  const { openAddPersonModal, darkMode, toggleDarkMode } = useStore();
+  const { openAddPersonModal } = useStore();
 
   // Global keyboard shortcut for adding person
   useEffect(() => {
@@ -19,44 +19,37 @@ function Header() {
   }, [openAddPersonModal]);
 
   return (
-    <header className={`h-14 px-4 flex items-center justify-between shrink-0 border-b ${
-      darkMode
-        ? 'bg-gray-900 border-gray-700'
-        : 'bg-white border-gray-200'
-    }`}>
+    <header className="h-16 px-6 flex items-center justify-between shrink-0
+      bg-white/5 backdrop-blur-xl border-b border-white/10">
       {/* Logo / Title */}
-      <div className="flex items-center gap-2">
-        <Users className={`w-6 h-6 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
-        <h1 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600
+          flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.3)]">
+          <Sparkles className="w-5 h-5 text-white" />
+        </div>
+        <h1 className="text-xl font-semibold text-white tracking-tight">
           Peeps
         </h1>
       </div>
 
-      {/* Search, Dark mode toggle and Add button */}
-      <div className="flex items-center gap-3">
+      {/* Search and Add button */}
+      <div className="flex items-center gap-4">
         <SearchBox />
-
-        {/* Dark mode toggle */}
-        <button
-          onClick={toggleDarkMode}
-          className={`p-2 rounded-lg transition-colors ${
-            darkMode
-              ? 'bg-gray-800 hover:bg-gray-700 text-yellow-400'
-              : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
-          }`}
-          title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
 
         <button
           onClick={openAddPersonModal}
-          className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white
-                     bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white
+            bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl
+            hover:from-indigo-400 hover:to-purple-500
+            transition-all duration-300
+            shadow-[0_0_20px_rgba(99,102,241,0.3)]
+            hover:shadow-[0_0_30px_rgba(99,102,241,0.5)]
+            hover:scale-[1.02] active:scale-[0.98]"
         >
           <Plus className="w-4 h-4" />
           <span>Add Person</span>
-          <kbd className="hidden sm:inline-block ml-1 px-1.5 py-0.5 text-xs bg-blue-500 rounded">
+          <kbd className="hidden sm:inline-block ml-1 px-1.5 py-0.5 text-xs
+            bg-white/20 rounded-md font-mono">
             ⌘N
           </kbd>
         </button>
