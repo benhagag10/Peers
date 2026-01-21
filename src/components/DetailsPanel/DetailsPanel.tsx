@@ -3,6 +3,69 @@ import { X, Edit2, Trash2, ExternalLink, Link2, User } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { getInitials, getAvatarColor } from '../../utils/avatar';
 import { LINK_TYPE_LABELS, LINK_TYPE_COLORS } from '../../utils/constants';
+import type { Link, Person } from '../../types';
+
+// Generate stream-based connections for a specific person
+function getStreamLinksForPerson(personId: string, people: Person[]): Link[] {
+  const person = people.find(p => p.id === personId);
+  if (!person?.stream) return [];
+
+  const streamKey = person.stream.toLowerCase().trim();
+  const streamLinks: Link[] = [];
+
+  people.forEach((other) => {
+    if (other.id === personId) return;
+    if (other.stream?.toLowerCase().trim() === streamKey) {
+      streamLinks.push({
+        id: `stream-${personId}-${other.id}`,
+        sourceId: personId,
+        targetId: other.id,
+        description: person.stream!,
+        type: 'stream',
+        createdAt: '',
+        updatedAt: '',
+      });
+    }
+  });
+
+  return streamLinks;
+}
+
+// Generate interest-based connections for a specific person
+function getInterestLinksForPerson(personId: string, people: Person[]): Link[] {
+  const person = people.find(p => p.id === personId);
+  if (!person?.interests?.length) return [];
+
+  const interestLinks: Link[] = [];
+  const seenPairs = new Set<string>();
+
+  people.forEach((other) => {
+    if (other.id === personId) return;
+    if (!other.interests?.length) return;
+
+    const sharedInterests = person.interests!.filter((interest) =>
+      other.interests!.includes(interest)
+    );
+
+    sharedInterests.forEach((interest) => {
+      const pairKey = [personId, other.id, interest].sort().join('-');
+      if (!seenPairs.has(pairKey)) {
+        seenPairs.add(pairKey);
+        interestLinks.push({
+          id: `interest-${personId}-${other.id}-${interest}`,
+          sourceId: personId,
+          targetId: other.id,
+          description: interest,
+          type: 'interest',
+          createdAt: '',
+          updatedAt: '',
+        });
+      }
+    });
+  });
+
+  return interestLinks;
+}
 
 function DetailsPanel() {
   const {
@@ -18,15 +81,20 @@ function DetailsPanel() {
     deletePerson,
     deleteLink,
     openAddLinkModal,
+    people,
   } = useStore();
 
   const selectedPerson = selectedPersonId ? getPersonById(selectedPersonId) : undefined;
   const selectedLink = selectedLinkId ? getLinkById(selectedLinkId) : undefined;
 
+  // Get all connections: manual + stream + interest
   const personLinks = useMemo(() => {
     if (!selectedPersonId) return [];
-    return getLinksForPerson(selectedPersonId);
-  }, [selectedPersonId, getLinksForPerson]);
+    const manualLinks = getLinksForPerson(selectedPersonId);
+    const streamLinks = getStreamLinksForPerson(selectedPersonId, people);
+    const interestLinks = getInterestLinksForPerson(selectedPersonId, people);
+    return [...manualLinks, ...streamLinks, ...interestLinks];
+  }, [selectedPersonId, getLinksForPerson, people]);
 
   const sourcePerson = selectedLink ? getPersonById(selectedLink.sourceId) : undefined;
   const targetPerson = selectedLink ? getPersonById(selectedLink.targetId) : undefined;
