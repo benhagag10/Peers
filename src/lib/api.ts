@@ -1,4 +1,4 @@
-import type { Person, Link } from '../types';
+import type { Person, Link, FeatureRequest } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -72,6 +72,22 @@ export const linksApi = {
 
   delete: (id: string): Promise<void> =>
     fetchApi<void>(`/api/links/${id}`, {
+      method: 'DELETE',
+    }),
+};
+
+// Feature Requests API
+export const featureRequestsApi = {
+  getAll: (): Promise<FeatureRequest[]> => fetchApi<FeatureRequest[]>('/api/feature-requests'),
+
+  create: (request: FeatureRequest): Promise<FeatureRequest> =>
+    fetchApi<FeatureRequest>('/api/feature-requests', {
+      method: 'POST',
+      body: JSON.stringify(request),
+    }),
+
+  delete: (id: string): Promise<void> =>
+    fetchApi<void>(`/api/feature-requests/${id}`, {
       method: 'DELETE',
     }),
 };

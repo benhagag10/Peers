@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import type { Person, Link } from '../types';
+import type { Person, Link, FeatureRequest } from '../types';
 
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -12,6 +12,8 @@ export type SocketEventHandlers = {
   onLinkCreated?: (link: Link) => void;
   onLinkUpdated?: (link: Link) => void;
   onLinkDeleted?: (data: { id: string }) => void;
+  onFeatureRequestCreated?: (request: FeatureRequest) => void;
+  onFeatureRequestDeleted?: (data: { id: string }) => void;
   onConnect?: () => void;
   onDisconnect?: () => void;
 };
@@ -66,6 +68,15 @@ export function initializeSocket(handlers: SocketEventHandlers): Socket {
 
   socket.on('link:deleted', (data: { id: string }) => {
     handlers.onLinkDeleted?.(data);
+  });
+
+  // Feature request events
+  socket.on('featureRequest:created', (request: FeatureRequest) => {
+    handlers.onFeatureRequestCreated?.(request);
+  });
+
+  socket.on('featureRequest:deleted', (data: { id: string }) => {
+    handlers.onFeatureRequestDeleted?.(data);
   });
 
   return socket;

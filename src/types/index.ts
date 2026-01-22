@@ -40,6 +40,13 @@ export interface Viewport {
   zoom: number;
 }
 
+export interface FeatureRequest {
+  id: string;
+  authorName: string | null;
+  requestText: string;
+  createdAt: string;
+}
+
 export interface StoredData {
   version: 1;
   people: Person[];

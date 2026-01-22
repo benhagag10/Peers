@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
-import { Plus, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Plus, Sparkles, Lightbulb } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import SearchBox from './SearchBox';
+import FeatureRequestModal from '../Modals/FeatureRequestModal';
 
 function Header() {
   const { openAddPersonModal } = useStore();
+  const [isFeatureRequestModalOpen, setIsFeatureRequestModalOpen] = useState(false);
 
   // Global keyboard shortcut for adding person
   useEffect(() => {
@@ -32,9 +34,21 @@ function Header() {
         </h1>
       </div>
 
-      {/* Search and Add button */}
-      <div className="flex items-center gap-4">
+      {/* Search and buttons */}
+      <div className="flex items-center gap-3">
         <SearchBox />
+
+        <button
+          onClick={() => setIsFeatureRequestModalOpen(true)}
+          className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-white
+            bg-white/5 border border-white/10 rounded-xl
+            hover:bg-white/10 hover:border-white/20
+            transition-all duration-300"
+          title="Feature Requests"
+        >
+          <Lightbulb className="w-4 h-4 text-amber-400" />
+          <span className="hidden sm:inline">Requests</span>
+        </button>
 
         <button
           onClick={openAddPersonModal}
@@ -54,6 +68,11 @@ function Header() {
           </kbd>
         </button>
       </div>
+
+      <FeatureRequestModal
+        isOpen={isFeatureRequestModalOpen}
+        onClose={() => setIsFeatureRequestModalOpen(false)}
+      />
     </header>
   );
 }

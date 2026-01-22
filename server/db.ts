@@ -58,6 +58,16 @@ export async function initializeDatabase(): Promise<void> {
     )
   `);
 
+  // Create feature_requests table
+  await client.execute(`
+    CREATE TABLE IF NOT EXISTS feature_requests (
+      id TEXT PRIMARY KEY,
+      author_name TEXT,
+      request_text TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )
+  `);
+
   // Create indexes for better query performance
   await client.execute(`
     CREATE INDEX IF NOT EXISTS idx_links_source ON links(source_id)
@@ -68,6 +78,21 @@ export async function initializeDatabase(): Promise<void> {
   `);
 
   console.log('Database initialized successfully');
+}
+
+// Helper to convert database row to FeatureRequest object
+export function rowToFeatureRequest(row: Record<string, unknown>): {
+  id: string;
+  authorName: string | null;
+  requestText: string;
+  createdAt: string;
+} {
+  return {
+    id: row.id as string,
+    authorName: row.author_name as string | null,
+    requestText: row.request_text as string,
+    createdAt: row.created_at as string,
+  };
 }
 
 // Helper to convert database row to Person object

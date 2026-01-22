@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import { initializeDatabase } from './db.js';
 import { createPeopleRouter } from './routes/people.js';
 import { createLinksRouter } from './routes/links.js';
+import { createFeatureRequestsRouter } from './routes/featureRequests.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.get('/health', (_req, res) => {
 // API routes - pass io for socket events
 app.use('/api/people', createPeopleRouter(io));
 app.use('/api/links', createLinksRouter(io));
+app.use('/api/feature-requests', createFeatureRequestsRouter(io));
 
 // Socket.io connection handling
 io.on('connection', (socket) => {
