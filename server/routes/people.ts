@@ -42,7 +42,7 @@ export function createPeopleRouter(io: Server): Router {
   // POST /api/people - Create new person
   router.post('/', async (req: Request, res: Response) => {
     try {
-      const { id, name, affiliation, photoUrl, peeps, stream, interests, position, createdAt, updatedAt } = req.body;
+      const { id, name, affiliations, photoUrl, peeps, stream, interests, position, createdAt, updatedAt } = req.body;
 
       if (!id || !name || !position) {
         res.status(400).json({ error: 'id, name, and position are required' });
@@ -55,7 +55,7 @@ export function createPeopleRouter(io: Server): Router {
         args: [
           id,
           name,
-          affiliation || null,
+          affiliations ? JSON.stringify(affiliations) : null,
           photoUrl || null,
           peeps || null,
           stream || null,
@@ -70,7 +70,7 @@ export function createPeopleRouter(io: Server): Router {
       const person = {
         id,
         name,
-        affiliation,
+        affiliations,
         photoUrl,
         peeps,
         stream,
@@ -93,7 +93,7 @@ export function createPeopleRouter(io: Server): Router {
   // PUT /api/people/:id - Update person
   router.put('/:id', async (req: Request, res: Response) => {
     try {
-      const { name, affiliation, photoUrl, peeps, stream, interests, position, updatedAt } = req.body;
+      const { name, affiliations, photoUrl, peeps, stream, interests, position, updatedAt } = req.body;
 
       // Check if person exists
       const existing = await db.execute({
@@ -120,7 +120,7 @@ export function createPeopleRouter(io: Server): Router {
               WHERE id = ?`,
         args: [
           name,
-          affiliation || null,
+          affiliations ? JSON.stringify(affiliations) : null,
           photoUrl || null,
           peeps || null,
           stream || null,
@@ -135,7 +135,7 @@ export function createPeopleRouter(io: Server): Router {
       const person = {
         id: req.params.id,
         name,
-        affiliation,
+        affiliations,
         photoUrl,
         peeps,
         stream,

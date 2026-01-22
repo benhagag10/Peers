@@ -17,7 +17,7 @@ function EditPersonModal() {
   } = useStore();
 
   const [name, setName] = useState('');
-  const [affiliation, setAffiliation] = useState('');
+  const [affiliations, setAffiliations] = useState<string[]>([]);
   const [photoUrl, setPhotoUrl] = useState('');
   const [peeps, setPeeps] = useState('');
   const [stream, setStream] = useState('');
@@ -26,17 +26,20 @@ function EditPersonModal() {
 
   const person = selectedPersonId ? getPersonById(selectedPersonId) : undefined;
 
-  // Get all existing interests for suggestions
+  // Get all existing interests and affiliations for suggestions
   const people = useStore((state) => state.people);
   const allInterests = Array.from(
     new Set(people.flatMap((p) => p.interests || []))
+  ).sort();
+  const allAffiliations = Array.from(
+    new Set(people.flatMap((p) => p.affiliations || []))
   ).sort();
 
   // Populate form when modal opens
   useEffect(() => {
     if (isEditPersonModalOpen && person) {
       setName(person.name);
-      setAffiliation(person.affiliation || '');
+      setAffiliations(person.affiliations || []);
       setPhotoUrl(person.photoUrl || '');
       setPeeps(person.peeps || '');
       setStream(person.stream || '');
@@ -58,7 +61,7 @@ function EditPersonModal() {
 
       updatePerson(selectedPersonId, {
         name: name.trim(),
-        affiliation: affiliation.trim() || undefined,
+        affiliations: affiliations.length > 0 ? affiliations : undefined,
         photoUrl: photoUrl.trim() || undefined,
         peeps: peeps.trim() || undefined,
         stream: stream.trim() || undefined,
@@ -67,7 +70,7 @@ function EditPersonModal() {
 
       closeEditPersonModal();
     },
-    [name, affiliation, photoUrl, peeps, stream, interests, selectedPersonId, updatePerson, closeEditPersonModal]
+    [name, affiliations, photoUrl, peeps, stream, interests, selectedPersonId, updatePerson, closeEditPersonModal]
   );
 
   const handleDelete = useCallback(() => {
@@ -154,19 +157,14 @@ function EditPersonModal() {
                   </div>
 
                   <div>
-                    <label htmlFor="edit-affiliation" className="block text-sm font-medium text-white/70 mb-1.5">
-                      Affiliation
+                    <label className="block text-sm font-medium text-white/70 mb-1.5">
+                      Affiliations
                     </label>
-                    <input
-                      id="edit-affiliation"
-                      type="text"
-                      value={affiliation}
-                      onChange={(e) => setAffiliation(e.target.value)}
-                      placeholder="MIT, Stanford, etc."
-                      className="w-full px-3 py-2.5 text-white placeholder-white/30
-                        bg-white/5 border border-white/10 rounded-xl
-                        focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50
-                        transition-all"
+                    <TagInput
+                      tags={affiliations}
+                      onChange={setAffiliations}
+                      placeholder="Type affiliation and press space..."
+                      suggestions={allAffiliations}
                     />
                   </div>
 

@@ -13,7 +13,7 @@ export type LinkType =
 export interface Person {
   id: string;
   name: string;
-  affiliation?: string;
+  affiliations?: string[];
   photoUrl?: string;
   peeps?: string;
   stream?: string;

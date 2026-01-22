@@ -99,7 +99,7 @@ export function rowToFeatureRequest(row: Record<string, unknown>): {
 export function rowToPerson(row: Record<string, unknown>): {
   id: string;
   name: string;
-  affiliation?: string;
+  affiliations?: string[];
   photoUrl?: string;
   peeps?: string;
   stream?: string;
@@ -111,7 +111,7 @@ export function rowToPerson(row: Record<string, unknown>): {
   return {
     id: row.id as string,
     name: row.name as string,
-    affiliation: row.affiliation as string | undefined,
+    affiliations: row.affiliation ? JSON.parse(row.affiliation as string) : undefined,
     photoUrl: row.photo_url as string | undefined,
     peeps: row.peeps as string | undefined,
     stream: row.stream as string | undefined,

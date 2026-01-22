@@ -179,8 +179,18 @@ function DetailsPanel() {
               )}
             </div>
             <h2 className="mt-4 text-lg font-semibold text-white">{selectedPerson.name}</h2>
-            {selectedPerson.affiliation && (
-              <p className="text-sm text-white/50">{selectedPerson.affiliation}</p>
+            {selectedPerson.affiliations && selectedPerson.affiliations.length > 0 && (
+              <div className="mt-2 flex flex-wrap justify-center gap-1.5">
+                {selectedPerson.affiliations.map((affiliation) => (
+                  <span
+                    key={affiliation}
+                    className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium
+                      bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
+                  >
+                    {affiliation}
+                  </span>
+                ))}
+              </div>
             )}
             {selectedPerson.peeps && (
               <a

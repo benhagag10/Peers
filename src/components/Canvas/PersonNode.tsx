@@ -4,13 +4,13 @@ import { getInitials, getAvatarColor } from '../../utils/avatar';
 
 export interface PersonNodeData extends Record<string, unknown> {
   name: string;
-  affiliation?: string;
+  affiliations?: string[];
   photoUrl?: string;
   isSelected: boolean;
 }
 
 function PersonNode({ data }: NodeProps) {
-  const { name, affiliation, photoUrl, isSelected } = data as PersonNodeData;
+  const { name, affiliations, photoUrl, isSelected } = data as PersonNodeData;
   const initials = getInitials(name);
   const bgColor = getAvatarColor(name);
 
@@ -97,10 +97,13 @@ function PersonNode({ data }: NodeProps) {
         {name}
       </div>
 
-      {/* Affiliation */}
-      {affiliation && (
+      {/* Affiliations */}
+      {affiliations && affiliations.length > 0 && (
         <div className="text-xs text-white/50 text-center max-w-[120px] truncate mt-0.5">
-          {affiliation}
+          {affiliations[0]}
+          {affiliations.length > 1 && (
+            <span className="text-indigo-400/70"> +{affiliations.length - 1}</span>
+          )}
         </div>
       )}
     </div>

@@ -131,7 +131,7 @@ function Canvas() {
       position: person.position,
       data: {
         name: person.name,
-        affiliation: person.affiliation,
+        affiliations: person.affiliations,
         photoUrl: person.photoUrl,
         isSelected: person.id === selectedPersonId,
       } satisfies PersonNodeData,

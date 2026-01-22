@@ -9,24 +9,27 @@ function AddPersonModal() {
   const { isAddPersonModalOpen, closeAddPersonModal, addPerson } = useStore();
 
   const [name, setName] = useState('');
-  const [affiliation, setAffiliation] = useState('');
+  const [affiliations, setAffiliations] = useState<string[]>([]);
   const [photoUrl, setPhotoUrl] = useState('');
   const [peeps, setPeeps] = useState('');
   const [stream, setStream] = useState('');
   const [interests, setInterests] = useState<string[]>([]);
   const [error, setError] = useState('');
 
-  // Get all existing interests for suggestions
+  // Get all existing interests and affiliations for suggestions
   const people = useStore((state) => state.people);
   const allInterests = Array.from(
     new Set(people.flatMap((p) => p.interests || []))
+  ).sort();
+  const allAffiliations = Array.from(
+    new Set(people.flatMap((p) => p.affiliations || []))
   ).sort();
 
   // Reset form when modal opens/closes
   useEffect(() => {
     if (!isAddPersonModalOpen) {
       setName('');
-      setAffiliation('');
+      setAffiliations([]);
       setPhotoUrl('');
       setPeeps('');
       setStream('');
@@ -53,7 +56,7 @@ function AddPersonModal() {
 
       addPerson({
         name: name.trim(),
-        affiliation: affiliation.trim() || undefined,
+        affiliations: affiliations.length > 0 ? affiliations : undefined,
         photoUrl: photoUrl.trim() || undefined,
         peeps: peeps.trim() || undefined,
         stream: stream.trim() || undefined,
@@ -66,7 +69,7 @@ function AddPersonModal() {
 
       closeAddPersonModal();
     },
-    [name, affiliation, photoUrl, peeps, stream, interests, addPerson, closeAddPersonModal]
+    [name, affiliations, photoUrl, peeps, stream, interests, addPerson, closeAddPersonModal]
   );
 
   return (
@@ -139,19 +142,14 @@ function AddPersonModal() {
                   </div>
 
                   <div>
-                    <label htmlFor="affiliation" className="block text-sm font-medium text-white/70 mb-1.5">
-                      Affiliation
+                    <label className="block text-sm font-medium text-white/70 mb-1.5">
+                      Affiliations
                     </label>
-                    <input
-                      id="affiliation"
-                      type="text"
-                      value={affiliation}
-                      onChange={(e) => setAffiliation(e.target.value)}
-                      placeholder="MIT, Stanford, etc."
-                      className="w-full px-3 py-2.5 text-white placeholder-white/30
-                        bg-white/5 border border-white/10 rounded-xl
-                        focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50
-                        transition-all"
+                    <TagInput
+                      tags={affiliations}
+                      onChange={setAffiliations}
+                      placeholder="Type affiliation and press space..."
+                      suggestions={allAffiliations}
                     />
                   </div>
 

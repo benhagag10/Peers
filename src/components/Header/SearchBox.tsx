@@ -13,14 +13,14 @@ function SearchBox() {
   const { people, selectPerson } = useStore();
   const { setCenter } = useReactFlow();
 
-  // Filter people by name or affiliation
+  // Filter people by name or affiliations
   const filteredPeople = useMemo(() => {
     if (!query.trim()) return [];
     const lowerQuery = query.toLowerCase();
     return people.filter(
       (person) =>
         person.name.toLowerCase().includes(lowerQuery) ||
-        person.affiliation?.toLowerCase().includes(lowerQuery)
+        person.affiliations?.some((aff) => aff.toLowerCase().includes(lowerQuery))
     );
   }, [people, query]);
 
@@ -145,8 +145,8 @@ function SearchBox() {
                     )}
                     <div className="text-left">
                       <div className="text-sm font-medium text-white">{person.name}</div>
-                      {person.affiliation && (
-                        <div className="text-xs text-white/50">{person.affiliation}</div>
+                      {person.affiliations && person.affiliations.length > 0 && (
+                        <div className="text-xs text-white/50">{person.affiliations.join(', ')}</div>
                       )}
                     </div>
                   </button>
